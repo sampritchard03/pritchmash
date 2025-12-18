@@ -1,11 +1,11 @@
 {
 	"schemaVersion": 1,
-	"id": "examplemod",
+	"id": "pritchmash",
 	"version": "${version}",
-	"name": "Example Mod",
-	"description": "This mod aims to help new BTA modders.",
+	"name": "Pritch Mash",
+	"description": "This is all of my fun amazing stuff",
 	"authors": [
-		"Turnip Labs"
+		"Slaals"
 	],
 	"contact": {
 		"homepage": "",
@@ -16,20 +16,32 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"turniplabs.examplemod.ExampleMod"
+			"com.pritchmash.PritchMash"
 		],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"com.pritchmash.PritchMash"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"com.pritchmash.PritchMash"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+			"com.pritchmash.PritchMash"
+		],
+		"initModels": [
+			"com.pritchmash.PritchMashModels"
+		],
+		"client": [
+			"com.pritchmash.PritchMashClient"
+		],
+		"beforeClientStart": [
+			"com.pritchmash.PritchMashClient"
+		],
+		"afterClientStart": [
+			"com.pritchmash.PritchMashClient"
 		]
 	},
 	"mixins": [
-		"examplemod.mixins.json"
+		"pritchmash.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=${fabricloader}",

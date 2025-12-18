@@ -1,0 +1,10 @@
+{
+  "model_paths": [
+    "/assets/pritchmash/models/entity/pikmin.geo.json"
+  ],
+  "renderers": {
+    "pritchmash:pikmin": {
+      "main": "geometry.pikmin"
+    }
+  }
+}

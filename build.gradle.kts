@@ -38,6 +38,9 @@ repositories {
         patternLayout { artifact("v1/[organisation]/[revision]/[module].jar") }
         metadataSources { artifact() }
     }
+	flatDir {
+		dirs("libs") // Points to your local libs folder
+	}
 }
 lwjgl {
 	version = libs.versions.lwjgl
@@ -45,6 +48,12 @@ lwjgl {
 }
 dependencies {
     minecraft("::${libs.versions.bta.get()}")
+
+	implementation(files("libs/halplibe-5.3.3.jar"))
+	implementation(files("libs/modmenu-bta-4.0.0.jar"))
+	implementation(files("libs/modmenu-bta-4.0.0.jar"))
+	compileOnly(files("libs/dragonfly-1.7.0-alpha.7-7.3_04.jar"))
+	runtimeOnly(files("libs/dragonfly-1.7.0-alpha.7-7.3_04.jar"))
 
 	runtimeOnly(libs.clientJar)
 	implementation(libs.loader)
