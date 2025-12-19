@@ -4,6 +4,8 @@ import com.pritchmash.world.Blockpos;
 import com.pritchmash.world.XZ;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
+import net.minecraft.core.block.material.Material;
+import net.minecraft.core.block.material.MaterialColor;
 import net.minecraft.core.entity.Mob;
 import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.util.phys.Vec3;
@@ -28,23 +30,23 @@ public class BlockTargeting {
 		int y = (int)mob.y;
 
 		if (mob.world == null) return null;
-		int up = mob.world.getBlockId(b.x, y+1, b.z);
-		int down = mob.world.getBlockId(b.x, y, b.z);
+		Material up = mob.world.getBlockMaterial(b.x, y+1, b.z);
+		Material down = mob.world.getBlockMaterial(b.x, y, b.z);
 
 		int tries = 0;
-		while (!(up == 0 && (down != 0 && down != 271)) && tries < 1000) {
-			if (down == 271) {
+		while (up.blocksMotion() && !(down.blocksMotion() || down.isLiquid() && !avoidWater) && tries < 50) {
+			if (down.color == MaterialColor.water && avoidWater || mob.distanceTo(b.x, y, b.z) > maxDist*1.2) {
 				b = pickRandomXZ(mob, maxDist);
 				y = (int)mob.y;
 			} else {
-				if (up != 0) {
+				if (up.blocksMotion()) {
 					y += 1;
 				} else {
 					y -= 1;
 				}
 			}
-			up = mob.world.getBlockId(b.x, y+1, b.z);
-			down = mob.world.getBlockId(b.x, y, b.z);
+			up = mob.world.getBlockMaterial(b.x, y+1, b.z);
+			down = mob.world.getBlockMaterial(b.x, y, b.z);
 			tries++;
 		}
 
@@ -53,7 +55,18 @@ public class BlockTargeting {
 			return null;
 		}
 
-		System.out.println(Blocks.getBlock(down).getKey());
 		return new Blockpos(b.x, y, b.z);
+	}
+
+	public static double distanceToGround(Mob mob) {
+		int x = (int) mob.x;
+		int y = (int) mob.y;
+		int z = (int) mob.z;
+		Material mat = mob.world.getBlockMaterial(x, y, z);
+		while (!mat.isSolid()) {
+			y -= 1;
+			mat = mob.world.getBlockMaterial(x, y, z);
+		}
+		return Math.abs(mob.y-y);
 	}
 }

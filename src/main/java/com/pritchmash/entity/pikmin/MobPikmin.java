@@ -3,8 +3,6 @@ package com.pritchmash.entity.pikmin;
 import com.pritchmash.entity.MobTaskdoer;
 import com.pritchmash.entity.ai.tasks.Task;
 import com.pritchmash.entity.ai.tasks.WanderTask;
-import net.minecraft.core.entity.player.Player;
-import net.minecraft.core.item.Items;
 import net.minecraft.core.util.collection.NamespaceID;
 import net.minecraft.core.world.World;
 
@@ -16,10 +14,11 @@ public class MobPikmin extends MobTaskdoer {
 		textureIdentifier = NamespaceID.getPermanent("pritchmash", "pikmin");
 		setSize(0.5F, 1F);
 		state = State.FOLLOWING;
+		this.setShouldSwim(false);
 	}
 
 	@Override
-	public Task getTask() {
+	public Task makeTask() {
 		return new WanderTask(this);
 	}
 
