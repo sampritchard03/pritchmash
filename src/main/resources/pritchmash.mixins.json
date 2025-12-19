@@ -6,8 +6,6 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "entity.MobPathfinderMixin",
-    "entity.MobMixin",
     "entity.EntityMixin",
     "entity.PathFinderMixin"
   ],

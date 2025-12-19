@@ -1,20 +1,14 @@
 package com.pritchmash.entity.ai.tasks;
 
 import com.pritchmash.entity.MobTaskdoer;
-import com.pritchmash.entity.ai.IMobPathfinder;
-import com.pritchmash.entity.ai.targeting.BlockTargeting;
-import com.pritchmash.world.Blockpos;
+import net.minecraft.core.block.material.Material;
 import net.minecraft.core.util.helper.MathHelper;
 
 import java.util.Random;
 
-public class WanderTask extends Task {
-
-	private final Random random;
-
+public class WanderTask extends PathTask {
 	public WanderTask(MobTaskdoer mob) {
 		super(mob);
-		this.random = new Random();
 	}
 
 	@Override
@@ -22,9 +16,28 @@ public class WanderTask extends Task {
 
 	}
 
+	public int floorY(int x, int z) {
+		int y = (int)mob.y;
+
+		Material up = mob.world.getBlockMaterial(x, y+1, z);
+		Material down = mob.world.getBlockMaterial(x, y, z);
+
+		while (!(up == Material.air && down != Material.air)) {
+			if (up != Material.air) {
+				y += 1;
+			} else {
+				y -= 1;
+			}
+			up = mob.world.getBlockMaterial(x, y+1, z);
+			down = mob.world.getBlockMaterial(x, y, z);
+		}
+
+		return y;
+	}
+
 	@Override
-	protected Task onTick() {
-		if (this.mob.getPath() == null && this.random.nextInt(10) == 0) {
+	public Task onTick() {
+		if (this.path == null) {
 			if (this.mob.world != null) {
 				boolean canMoveToPoint = false;
 				int x = -1;
@@ -32,10 +45,10 @@ public class WanderTask extends Task {
 				int z = -1;
 				float bestPathWeight = -99999.0F;
 
-				for(int l = 0; l < 10; ++l) {
+				for(int l = 0; l < 25; ++l) {
 					int x1 = MathHelper.floor(this.mob.x + (double)this.random.nextInt(13) - (double)6.0F);
-					int y1 = MathHelper.floor(this.mob.y + (double)this.random.nextInt(7) - (double)3.0F);
 					int z1 = MathHelper.floor(this.mob.z + (double)this.random.nextInt(13) - (double)6.0F);
+					int y1 = this.floorY(x1, z1);
 					float currentPathWeight = this.mob.getBlockPathWeight(x1, y1, z1);
 					if (currentPathWeight > bestPathWeight) {
 						bestPathWeight = currentPathWeight;
@@ -47,13 +60,13 @@ public class WanderTask extends Task {
 				}
 
 				if (canMoveToPoint) {
-					this.mob.setPath(this.mob.world.getEntityPathToXYZ(this.mob, x, y, z, 10.0F));
+					this.path = this.mob.world.getEntityPathToXYZ(this.mob, x, y, z, 10.0F);
 				}
 
 			}
 		}
 
-		return null;
+		return super.onTick();
 	}
 
 	@Override
@@ -63,6 +76,6 @@ public class WanderTask extends Task {
 
 	@Override
 	protected boolean isEqual(Task other) {
-		return false;
+		return other instanceof WanderTask;
 	}
 }

@@ -1,6 +1,6 @@
 package com.pritchmash.mixin.entity;
 
-import com.pritchmash.entity.ai.IEntity;
+import com.pritchmash.entity.interfaces.IEntity;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLogicDoor;
 import net.minecraft.core.block.BlockLogicTrapDoor;
@@ -60,8 +60,8 @@ public abstract class PathFinderMixin {
 							}
 
 							if (material == Material.water) {
-								if (((IEntity)entity)._getShouldSwim()) cir.setReturnValue(-1);
-								else cir.setReturnValue(1);
+								if (((IEntity)entity)._getShouldPathOnSeafloor()) cir.setReturnValue(1);
+								else cir.setReturnValue(-1);
 								cir.cancel();
 								return;
 							}

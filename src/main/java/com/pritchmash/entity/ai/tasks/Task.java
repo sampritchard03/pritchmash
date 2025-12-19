@@ -1,20 +1,26 @@
 package com.pritchmash.entity.ai.tasks;
 
 import com.pritchmash.entity.MobTaskdoer;
+import org.lwjgl.Sys;
 
+import java.util.Random;
 import java.util.function.Predicate;
 
 public abstract class Task {
 
-	public MobTaskdoer mob;
 	private Task _sub = null;
 
 	private boolean _first = true;
 	private boolean _stopped = false;
 	private boolean _active = false;
 
+	public final MobTaskdoer mob;
+	public final Random random;
+
+
 	public Task(MobTaskdoer mob) {
 		this.mob = mob;
+		this.random = new Random();
 	}
 
 	public void tick() {
@@ -29,15 +35,14 @@ public abstract class Task {
 		Task newSub = onTick();
 		// We have a sub task
 		if (newSub != null) {
-			if (!newSub.isEqual(_sub)) {
+			if (!newSub.equals(_sub)) {
 				// Our sub task is new
 				if (_sub != null) {
 					// Our previous sub must be interrupted.
 					_sub.stop(newSub);
 				}
-
-				_sub = newSub;
 			}
+			_sub = newSub;
 
 			// Run our child
 			_sub.tick();

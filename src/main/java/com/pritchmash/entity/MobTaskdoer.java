@@ -1,45 +1,45 @@
 package com.pritchmash.entity;
 
-import com.pritchmash.entity.ai.IEntity;
-import com.pritchmash.entity.ai.IMobPathfinder;
+import com.pritchmash.entity.interfaces.IEntity;
 import com.pritchmash.entity.ai.tasks.Task;
 import net.minecraft.core.entity.MobPathfinder;
 import net.minecraft.core.world.World;
-import net.minecraft.core.world.pathfinder.Path;
+
+import java.util.function.Predicate;
 
 public abstract class MobTaskdoer extends MobPathfinder {
 
+	public Task task;
+
 	public MobTaskdoer(World world) {
 		super(world);
-		this.setShouldWander(false);
 	}
-
-	public abstract Task makeTask();
-	public Task task;
 
 	public float getBlockPathWeight(int x, int y, int z) {
 		return 0.0F;
 	}
 
+	@Override
 	public void updateAI() {
-		this.task = makeTask();
 		if (task != null) task.tick();
-		super.updateAI();
 	}
 
-	public void setShouldSwim(boolean shouldSwim) {
-		((IEntity)this)._setShouldSwim(shouldSwim);
+	/**
+	 * Mobs that can't swim will get stuck in place on the seafloor if this is false. Default is false.
+	 */
+	public void setShouldPathOnSeafloor(boolean shouldPathOnSeafloor) {
+		((IEntity)this)._setShouldPathOnSeafloor(shouldPathOnSeafloor);
 	}
 
-	public void setShouldWander(boolean shouldWander) {
-		((IMobPathfinder)this)._setShouldWander(shouldWander);
+	public void setMoveForward(float moveForward) {
+		this.moveForward = moveForward;
 	}
 
-	public void setPath(Path path) {
-		((IMobPathfinder)this)._setPath(path);
+	public void startJumping() {
+		this.isJumping = true;
 	}
 
-	public Path getPath() {
-		return ((IMobPathfinder)this)._getPath();
+	public void stopJumping() {
+		this.isJumping = false;
 	}
 }
