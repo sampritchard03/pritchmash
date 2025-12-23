@@ -1,5 +1,7 @@
 package com.pritchmash;
 
+import com.pritchmash.entity.PritchMashEntities;
+import com.pritchmash.item.PritchMashItems;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ public class PritchMash implements ModInitializer, RecipeEntrypoint, GameStartEn
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	@Override
 	public void onInitialize() {
+		PritchMashItems.initializeItems();
 		LOGGER.info("PritchMash initialized.");
 	}
 
@@ -22,6 +25,7 @@ public class PritchMash implements ModInitializer, RecipeEntrypoint, GameStartEn
 
 	@Override
 	public void beforeGameStart() {
+
 		PritchMashEntities.init();
 	}
 

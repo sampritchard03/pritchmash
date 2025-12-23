@@ -1,12 +1,11 @@
 package com.pritchmash.entity.ai.tasks;
 
-import com.pritchmash.entity.MobTaskdoer;
-import org.lwjgl.Sys;
+import com.pritchmash.entity.MobTaskrunner;
 
 import java.util.Random;
 import java.util.function.Predicate;
 
-public abstract class Task {
+public abstract class Task<T extends MobTaskrunner> {
 
 	private Task _sub = null;
 
@@ -14,13 +13,14 @@ public abstract class Task {
 	private boolean _stopped = false;
 	private boolean _active = false;
 
-	public final MobTaskdoer mob;
+	public final T mob;
 	public final Random random;
+	public int time;
 
-
-	public Task(MobTaskdoer mob) {
+	public Task(T mob) {
 		this.mob = mob;
 		this.random = new Random();
+		this.time = 0;
 	}
 
 	public void tick() {
@@ -54,6 +54,7 @@ public abstract class Task {
 				_sub = null;
 			}
 		}
+		time++;
 	}
 
 	public void reset() {

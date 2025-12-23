@@ -7,7 +7,10 @@
   },
   "mixins": [
     "entity.EntityMixin",
-    "entity.PathFinderMixin"
+    "entity.PathFinderMixin",
+    "entity.PlayerMixin",
+    "entity.MobMixin"
   ],
-  "client": []
+  "client": [
+  ]
 }

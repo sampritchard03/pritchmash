@@ -1,13 +1,12 @@
-package com.pritchmash.entity.ai.tasks;
+package com.pritchmash.entity.ai.tasks.path;
 
-import com.pritchmash.entity.MobTaskdoer;
+import com.pritchmash.entity.MobTaskrunner;
+import com.pritchmash.entity.ai.tasks.Task;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.util.helper.MathHelper;
 
-import java.util.Random;
-
-public class WanderTask extends PathTask {
-	public WanderTask(MobTaskdoer mob) {
+public class WanderTask<T extends MobTaskrunner> extends PathTask<T> {
+	public WanderTask(T mob) {
 		super(mob);
 	}
 
@@ -67,11 +66,6 @@ public class WanderTask extends PathTask {
 		}
 
 		return super.onTick();
-	}
-
-	@Override
-	protected void onStop(Task interruptTask) {
-
 	}
 
 	@Override

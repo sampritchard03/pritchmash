@@ -3,7 +3,13 @@
     "/assets/pritchmash/models/entity/pikmin.geo.json"
   ],
   "renderers": {
-    "pritchmash:pikmin": {
+    "pritchmash:redpikmin": {
+      "main": "geometry.pikmin"
+    },
+    "pritchmash:bluepikmin": {
+      "main": "geometry.pikmin"
+    },
+    "pritchmash:yellowpikmin": {
       "main": "geometry.pikmin"
     }
   }

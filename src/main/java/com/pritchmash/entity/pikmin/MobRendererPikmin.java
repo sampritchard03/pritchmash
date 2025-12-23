@@ -6,18 +6,18 @@ import org.useless.dragonfly.models.entity.BoneTransform;
 import org.useless.dragonfly.models.entity.StaticEntityModel;
 import org.useless.dragonfly.renderer.MobRenderer;
 
-public class MobRendererPikmin extends MobRenderer<MobPikmin> {
+public class MobRendererPikmin<T extends MobPikmin> extends MobRenderer<T> {
 	public MobRendererPikmin() {
 		super(0.2F);
 	}
 	@Override
-	protected @Nullable StaticEntityModel getAndSetupModelForLayer(@NonNull MobPikmin entity, float brightness, float partialTick, int layer) {
+	protected @Nullable StaticEntityModel getAndSetupModelForLayer(@NonNull T entity, float brightness, float partialTick, int layer) {
 		StaticEntityModel model = this.getModel("main");
 		this.setRotationAngles(model, entity, partialTick);
 		return model;
 	}
 
-	public void setRotationAngles(StaticEntityModel model, MobPikmin entity, float partialTick) {
+	public void setRotationAngles(StaticEntityModel model, T entity, float partialTick) {
 		BoneTransform head = model.getTransform("head");
 
 		float bodyYaw = this.getBodyYaw(entity, partialTick);

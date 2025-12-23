@@ -1,12 +1,13 @@
-package com.pritchmash.entity.ai.tasks;
+package com.pritchmash.entity.ai.tasks.look;
 
-import com.pritchmash.entity.MobTaskdoer;
+import com.pritchmash.entity.MobTaskrunner;
+import com.pritchmash.entity.ai.tasks.Task;
 
-public class LookAroundTask extends Task {
+public class LookAroundTask<T extends MobTaskrunner> extends Task<T> {
 
 	public float randomYawVelocity;
 
-	public LookAroundTask(MobTaskdoer mob) {
+	public LookAroundTask(T mob) {
 		super(mob);
 	}
 
@@ -31,7 +32,7 @@ public class LookAroundTask extends Task {
 
 	@Override
 	protected void onStop(Task interruptTask) {
-
+		this.randomYawVelocity = 0;
 	}
 
 	@Override
